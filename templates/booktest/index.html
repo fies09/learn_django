@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书列表</title>
+    <style>
+        td {text-align: center;}
+    </style>
+</head>
+<body>
+<h1>{{title}}</h1>
+<table width="500px">
+    <tr>
+        <th>书籍名称</th>
+        <th>发布日期</th>
+    </tr>
+{%for book in books%}
+    <tr>
+        <td>{{book.btitle}}</td>
+        <td>{{book.bpub_date}}</td>
+    </tr>
+{%endfor%}
+</table>
+</body>
+</html>

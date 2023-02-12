@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax请求</title>
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function(){
+            // 在按钮上绑定click事件
+            $("#sendAjax").click(function(){
+                // 获取输入框中的用户名和密码
+                var username = $('#username').val();
+                var password = $('#password').val();
+
+                // 使用ajax发送请求
+                $.ajax({
+                    // 'url': '/booktest/login_ajax',
+                    // 使用django去除url硬编码
+                    'url': '{% url "apptest:login_ajax" %}',
+                    'type': 'post',
+                    'dataType': 'json',
+                    'data': {
+                        'username': username,
+                        'password': password
+                    }
+                }).success(function(data){      // 如果请求成功则执行，形参data为响应的数据
+                    if( data.status_code==0 ){
+                        alert('响应成功')
+                    }else{
+                        alert('响应错误')
+                        return
+                    };
+                    $('#message').html(data.data.message)
+                    if( data.data.ret == 1){
+                        $('#message').addClass('showColor')
+                    }else{
+                        $('#message').removeClass('showColor')
+                        // 跳转到booktest首页
+                        location.href = '/apptest/'
+                    }
+                })
+            });
+        });
+    </script>
+    <style>
+        .showColor{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>用户名：<input type="text" name="username" id="username"></div>
+    <div>密码：<input type="text" name="password" id="password"></div>
+    <div><input type="button" value="登录" id="sendAjax"></div>
+    <div id="message"></div>
+</body>
+</html>
